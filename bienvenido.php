@@ -1,3 +1,14 @@
+<?php 
+    session_start();
+    include_once 'controladores/helpers.php';
+    include_once 'controladores/controladorValidacion.php';
+    include_once 'controladores/controladorUsuario.php';
+
+    pre($_SESSION);
+    pre($_COOKIE);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
