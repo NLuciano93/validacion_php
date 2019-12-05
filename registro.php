@@ -10,26 +10,19 @@
     if($_POST){
 
         $erroresRegistro= validarFormulario($_POST);
-        if ($_FILES) {
-            $erroresArchivo = validarImagenPerfil($_FILES);
-            
-        }
+        $erroresArchivo = validarImagenPerfil($_FILES);  
+       
         
         
         if(count($erroresRegistro) == 0 && count($erroresArchivo) == 0){
-            $imagenUsuario = "userImage.png";
-            if ($_FILES["imagenPerfil"]["error"] != UPLOAD_ERR_NO_FILE) {
-                $fileTmpPath = $_FILES['foto']['tmp_name'];
-                $fileName = $_FILES['foto']['name'];
-                $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-                $miArchivo= dirname(__FILE__);
-                $miArchivo = $miArchivo . "/imagen/";
-                $miArchivo = $miArchivo . $_FILES["imagenPerfil"]["name"] . uniqid() . "." .$ext;
-            }
+            $usuarioRegistro = armarArrayUsuario($_POST);
+            $nombreImagen = guardarAvatar($_FILES);
 
+            $usuarioRegistro['avatar'] = $nombreImagen;  
+            
         //Guardar en base de datos un array transformado enJSON
-          $usuarioRegistro = armarArrayUsuario($_POST, $_FILES);
+          
           $usuarioRegistro = json_encode($usuarioRegistro);
           file_put_contents("usuarios.json", $usuarioRegistro . PHP_EOL, FILE_APPEND);
           header("Location: login.php");
